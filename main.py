@@ -14,7 +14,7 @@ class PyList:
           
     def __getitem__(self,index):
         raise NotImplementedError
-
+        # gets the item from the list at the given index
         if index < self.numItems:
             # TODO: Implement this!
             return
@@ -27,12 +27,12 @@ class PyList:
         if index < self.numItems:
             # TODO: Implement this!
             return
-        
+        # sets the value at index in the list to the given val
         raise IndexError("PyList assignment index out of range")
     
     def insert(self,i,e):
         raise NotImplementedError
-        
+        # Sticks element to a specific index
         if self.numItems == self.size:
             self.__makeroom()
            
@@ -46,27 +46,24 @@ class PyList:
             
             
     def __add__(self,other):
-        raise NotImplementedError
-        
+        #raise NotImplementedError
+        # stick one list to the end of another
         result = PyList()
         
         for i in range(self.numItems):
-            # TODO: Implement this!
-            pass
+            result.append(self.items[i])
             
         for i in range(other.numItems):
-            # TODO: Implement this!
-            pass
+            result.append(self.items[i])
             
         return result
     
     
     def __contains__(self,item):
-        raise NotImplementedError
-
+        # is the given item in the list
         for i in range(self.numItems):
-            # TODO: Implement this!
-            pass
+            if self.items[i] == item:
+              return True
 
         return False
     
@@ -76,8 +73,7 @@ class PyList:
         self.numItems -= 1 # same as writing self.numItems = self.numItems - 1
             
     def __eq__(self,other):
-        raise NotImplementedError
-
+        # If two things are equal
         if type(other) != type(self):
             return False
         
@@ -85,8 +81,10 @@ class PyList:
             return False
         
         for i in range(self.numItems):
-            # TODO: Implement this!
-            pass
+            if self.items[i] == other.items[i]:
+              pass
+            else:
+              return False
             
         return True
     
@@ -110,13 +108,11 @@ class PyList:
         self.size = newlen        
 
     def append(self,item):
-        raise NotImplementedError
-
+        # Append to the end of a list
         if self.numItems == self.size:
             self.__makeroom()
-            
-        # TODO: Implement this!
-        pass
+        self.items[self.numItems] = item
+        self.numItems += 1
 
     def __str__(self):
         s = "["
