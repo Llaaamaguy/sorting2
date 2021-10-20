@@ -143,6 +143,18 @@ class PyList:
     def appendCount(self):
       return self.appendCount
 
+    def swap(self, index1, index2):
+        if index1 >= self.numItems or index2 >= self.numItems:
+            raise IndexError
+        elif index1 == index2:
+            pass
+        else:
+            item1 = self.items[index1]
+            item2 = self.items[index2]
+            self.items[index1] = item2
+            self.items[index2] = item1
+
+
     def sort(self):
         pass
         
@@ -225,6 +237,8 @@ def main():
         
     print(lst)
     print(lst4)
+
+
     
 if __name__ == "__main__":
     main()
