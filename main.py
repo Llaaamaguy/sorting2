@@ -153,7 +153,12 @@ class PyList:
             item2 = self.items[index2]
             self.items[index1] = item2
             self.items[index2] = item1
-
+    
+    def isSorted(self):
+        for i in range(self.numItems-1):
+            if self.items[i] > self.items[i+1]:
+                return False
+        return True
 
     def sort(self):
         pass
@@ -237,6 +242,19 @@ def main():
         
     print(lst)
     print(lst4)
+
+    lst5 = PyList(range(10))
+    if lst5.isSorted:
+        print("Test 11 passed")
+    else:
+        print("Test 11 failed")
+    
+    lst5.swap(0,1)
+    lst6 = PyList([1,0,2,3,4,5,6,7,8,9])
+    if lst5 == lst6:
+        print("Test 12 passed")
+    else:
+        print("Test 12 failed")
 
 
     
