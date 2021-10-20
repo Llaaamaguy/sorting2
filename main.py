@@ -8,7 +8,8 @@ class PyList:
         self.items = [None] * size
         self.numItems = 0
         self.size = size
-        
+        self.appendCount = 0
+
         for e in contents:
             self.append(e)
           
@@ -31,18 +32,21 @@ class PyList:
         raise IndexError("PyList assignment index out of range")
     
     def insert(self,i,e):
-        raise NotImplementedError
+        #raise NotImplementedError
         # Sticks element to a specific index
         if self.numItems == self.size:
             self.__makeroom()
            
         if i < self.numItems:
-            # TODO: Implement this!
-            return
+          for j in range(self.numItems, i-1, -1):
+            self.items[j+1] = self.items[j]
+          self.items[i] = e
+          self.numItems += 1
+
+            
 
         else:
-            # TODO: Implement This!
-            return
+          self.append(e)
             
             
     def __add__(self,other):
@@ -54,7 +58,7 @@ class PyList:
             result.append(self.items[i])
             
         for i in range(other.numItems):
-            result.append(self.items[i])
+            result.append(other.items[i])
             
         return result
     
@@ -113,6 +117,7 @@ class PyList:
             self.__makeroom()
         self.items[self.numItems] = item
         self.numItems += 1
+        self.appendCount += 1
 
     def __str__(self):
         s = "["
@@ -131,11 +136,17 @@ class PyList:
                 s = s + ", "
         s = s + "])"
         return s        
-            
+
+    def resetAppendCount(self):
+      self.appendCount = 0
+
+    def appendCount(self):
+      return self.appendCount
+
     def sort(self):
         pass
         
-                
+
 def main():
     lst = PyList()
     
