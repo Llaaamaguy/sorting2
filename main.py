@@ -1,3 +1,5 @@
+import random
+
 class PyList:
     def __init__(self,contents=[], size=10):
         # The contents allows the programmer to construct a list with
@@ -14,22 +16,20 @@ class PyList:
             self.append(e)
           
     def __getitem__(self,index):
-        raise NotImplementedError
+        #raise NotImplementedError
         # gets the item from the list at the given index
-        if index < self.numItems:
-            # TODO: Implement this!
-            return
-        
-        raise IndexError("PyList index out of range")
+        if index >= self.numItems:
+            raise IndexError("PyList index out of range")
+        else:
+            return self.items[index]
     
     def __setitem__(self,index,val):
-        raise NotImplementedError
+        #raise NotImplementedError
 
-        if index < self.numItems:
-            # TODO: Implement this!
-            return
-        # sets the value at index in the list to the given val
-        raise IndexError("PyList assignment index out of range")
+        if index >= self.numItems:
+            raise IndexError("PyList index out of range")
+        else:
+            self.items[index] = val
     
     def insert(self,i,e):
         #raise NotImplementedError
@@ -154,15 +154,23 @@ class PyList:
             self.items[index1] = item2
             self.items[index2] = item1
     
-    def isSorted(self):
+    def is_sorted(self):
         for i in range(self.numItems-1):
-            if self.items[i] > self.items[i+1]:
+            if self[i] > self[i+1]:
                 return False
         return True
 
     def sort(self):
         pass
-        
+
+    def bubble_sort(self):
+        while not self.is_sorted():
+            for i in range(self.numItems - 1):
+                if self.items[i] > self.items[i+1]:
+                    self.swap(i, i+1)
+
+
+
 
 def main():
     lst = PyList()
@@ -243,12 +251,13 @@ def main():
     print(lst)
     print(lst4)
 
-    lst5 = PyList(range(10))
-    if lst5.isSorted:
+    lst5 = PyList([0,1,4,2,3])
+    if lst5.is_sorted():
         print("Test 11 passed")
     else:
         print("Test 11 failed")
     
+    lst5 = PyList(range(10))
     lst5.swap(0,1)
     lst6 = PyList([1,0,2,3,4,5,6,7,8,9])
     if lst5 == lst6:
@@ -256,6 +265,15 @@ def main():
     else:
         print("Test 12 failed")
 
+    nums = list(range(20))
+    random.shuffle(nums)
+    lst7 = PyList(nums)
+    lst8 = PyList(range(20))
+    lst7.bubble_sort()
+    if lst7 == lst8:
+        print("Test 13 passed")
+    else:
+        print("Test 13 failed")
 
     
 if __name__ == "__main__":
