@@ -1,4 +1,5 @@
 import random
+from time import thread_time
 
 class PyList:
     def __init__(self,contents=[], size=10):
@@ -170,6 +171,19 @@ class PyList:
                     self.swap(i, i+1)
 
 
+def almost_sorted(lstlen=10, swap=2):
+    nums = list(range(lstlen))
+    lst = PyList(nums)
+    for i in range(swap):
+        lst.swap(random.randint(0, lstlen - 1), random.randint(0, lstlen - 1))
+    return lst
+
+
+def sort_runtime(lst):
+    runtime = thread_time()
+    lst.bubble_sort()
+    runtime = thread_time() - runtime
+    return runtime
 
 
 def main():
@@ -251,7 +265,7 @@ def main():
     print(lst)
     print(lst4)
 
-    lst5 = PyList([0,1,4,2,3])
+    lst5 = PyList([0,1,2,3,4])
     if lst5.is_sorted():
         print("Test 11 passed")
     else:
@@ -275,7 +289,16 @@ def main():
     else:
         print("Test 13 failed")
 
-    
+    lst9 = almost_sorted(20, 2)
+    print(lst9)
+
+    with open("data.csv", "w") as f:
+        for i in range(100):
+            lst9 = almost_sorted(20, 2)
+            sortTime = sort_runtime(lst9)
+            f.write(f"{sortTime},\n")
+
+
 if __name__ == "__main__":
     main()
                 
