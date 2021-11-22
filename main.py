@@ -160,6 +160,24 @@ class PyList:
                 return False
         return True
 
+    def max_index(self, stop=0):
+        biggest = 0
+        index = 0
+        for i in range(self.numItems - stop):
+            if self.items[i] > biggest:
+                biggest = self.items[i]
+                index = i
+        return index, biggest
+
+    def min_index(self):
+        smallest, _ = self.max_index()
+        index = 0
+        for i in range(self.numItems):
+            if self.items[i] < smallest:
+                smallest = self.items[i]
+                index = i
+        return index
+
     def sort(self):
         pass
 
@@ -168,6 +186,14 @@ class PyList:
             for i in range(self.numItems - 1):
                 if self.items[i] > self.items[i + 1]:
                     self.swap(i, i + 1)
+
+    def insertion_sort(self):
+        stop = 0
+        while not self.is_sorted():
+            max_i, max_e = self.max_index(stop)
+            del self[max_i]
+            self.insert(self.numItems-stop, max_e)
+            stop += 1
 
 
 def almost_sorted(lstlen=10, swap=2):
@@ -178,7 +204,14 @@ def almost_sorted(lstlen=10, swap=2):
     return lst
 
 
-def sort_runtime(lst):
+def bubble_sort_runtime(lst):
+    runtime = thread_time()
+    lst.bubble_sort()
+    runtime = thread_time() - runtime
+    return runtime
+
+
+def insertion_sort_runtime(lst):
     runtime = thread_time()
     lst.bubble_sort()
     runtime = thread_time() - runtime
@@ -270,7 +303,7 @@ def main():
 
     lst5 = PyList(range(10))
     lst5.swap(0, 1)
-    lst6 = PyList([1, 0, 2, 3, 4, 5, 6, 7, 8, 9])
+    lst6 = PyList([1, 2, 0, 3, 4, 5, 6, 7, 9, 8])
     if lst5 == lst6:
         print("Test 12 passed")
     else:
@@ -289,24 +322,52 @@ def main():
     lst9 = almost_sorted(20, 2)
     print(lst9)
 
-    with open("almostSortedData.csv", "w") as f:
-        for i in range(1000):
-            lst9 = almost_sorted(i + 3, 2)
-            sortTime = sort_runtime(lst9)
-            f.write(f"{sortTime},\n")
-    with open("randomData.csv", "w") as f:
-        for i in range(1000):
-            tosort = list(range(i + 3))
-            random.shuffle(tosort)
-            lst9 = PyList(tosort)
-            sortTime = sort_runtime(lst9)
-            f.write(f"{sortTime},\n")
+    if lst6.max_index() == 8:
+        print("Test 14 passed")
+    else:
+        print("Test 14 failed")
+
+    if lst6.min_index() == 2:
+        print("Test 15 passed")
+    else:
+        print("Test 15 failed")
+
+    nums = list(range(40))
+    random.shuffle(nums)
+    lst10 = PyList(nums)
+    lst11 = PyList(range(40))
+    print(lst10)
+    lst10.insertion_sort()
+    print(lst10)
+    if lst10 == lst11:
+        print("Test 16 passed")
+    else:
+        print("Test 16 failed")
+
+    #with open("almostSortedData.csv", "w") as f:
+     #   for i in range(1000):
+      #      lst9 = almost_sorted(i + 3, 2)
+       #     sortTime = insertion_sort_runtime(lst9)
+        #    f.write(f"{sortTime},\n")
+    #with open("randomData.csv", "w") as f:
+     #   for i in range(1000):
+      #      tosort = list(range(i + 3))
+       #     random.shuffle(tosort)
+        #    lst9 = PyList(tosort)
+         #   sortTime = insertion_sort_runtime(lst9)
+          #  f.write(f"{sortTime},\n")
     with open("backwardsData.csv", "w") as f:
         for i in range(1000):
             tosort = list(range(i + 3, 0, -1))
             lst9 = PyList(tosort)
-            sortTime = sort_runtime(lst9)
+            sortTime = insertion_sort_runtime(lst9)
             f.write(f"{sortTime},\n")
+
+    nums = list(range(400000))
+    lst12 = PyList(nums)
+    lst13 = PyList(nums)
+    print(f"Bubble sort: {bubble_sort_runtime(lst12)}")
+    print(f"Insertion sort: {insertion_sort_runtime(lst13)}")
 
 
 if __name__ == "__main__":
