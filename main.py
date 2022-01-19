@@ -1,5 +1,14 @@
 import random
 from time import thread_time
+from itertools import tee
+
+"""
+def pairwise(iterable):
+    a, b = tee(iterable)
+    next(b, None)
+    return zip(a, b)
+"""
+
 
 
 class PyList:
@@ -137,6 +146,7 @@ class PyList:
         s = s + "])"
         return s
 
+
     def resetAppendCount(self):
         self.appendCount = 0
 
@@ -178,6 +188,14 @@ class PyList:
                 index = i
         return index
 
+    def merge(self, lst2):
+        for i in range(self.numItems):
+            print("Current index: " + str(i))
+            #print("Looking at " + str(self[i]) + ", " + str(lst2[0]))
+            print(self, lst2)
+
+            
+
     def sort(self):
         pass
 
@@ -192,8 +210,13 @@ class PyList:
         while not self.is_sorted():
             max_i, max_e = self.max_index(stop)
             del self[max_i]
-            self.insert(self.numItems-stop, max_e)
+            self.insert(self.numItems - stop, max_e)
             stop += 1
+
+    def merge_sort(self):
+        pass
+
+
 
 
 def almost_sorted(lstlen=10, swap=2):
@@ -344,30 +367,55 @@ def main():
     else:
         print("Test 16 failed")
 
-    #with open("almostSortedData.csv", "w") as f:
-     #   for i in range(1000):
-      #      lst9 = almost_sorted(i + 3, 2)
-       #     sortTime = insertion_sort_runtime(lst9)
-        #    f.write(f"{sortTime},\n")
-    #with open("randomData.csv", "w") as f:
-     #   for i in range(1000):
-      #      tosort = list(range(i + 3))
-       #     random.shuffle(tosort)
-        #    lst9 = PyList(tosort)
-         #   sortTime = insertion_sort_runtime(lst9)
-          #  f.write(f"{sortTime},\n")
-    with open("backwardsData.csv", "w") as f:
-        for i in range(1000):
-            tosort = list(range(i + 3, 0, -1))
-            lst9 = PyList(tosort)
-            sortTime = insertion_sort_runtime(lst9)
-            f.write(f"{sortTime},\n")
+    # with open("almostSortedData.csv", "w") as f:
+    #   for i in range(1000):
+    #      lst9 = almost_sorted(i + 3, 2)
+    #     sortTime = insertion_sort_runtime(lst9)
+    #    f.write(f"{sortTime},\n")
+    # with open("randomData.csv", "w") as f:
+    #   for i in range(1000):
+    #      tosort = list(range(i + 3))
+    #     random.shuffle(tosort)
+    #    lst9 = PyList(tosort)
+    #   sortTime = insertion_sort_runtime(lst9)
+    #  f.write(f"{sortTime},\n")
+    # with open("backwardsData.csv", "w") as f:
+    #   for i in range(1000):
+    #      tosort = list(range(i + 3, 0, -1))
+    #     lst9 = PyList(tosort)
+    #    sortTime = insertion_sort_runtime(lst9)
+    #   f.write(f"{sortTime},\n")
 
+    """
     nums = list(range(400000))
     lst12 = PyList(nums)
     lst13 = PyList(nums)
     print(f"Bubble sort: {bubble_sort_runtime(lst12)}")
     print(f"Insertion sort: {insertion_sort_runtime(lst13)}")
+    """
+
+    nums = list(range(40))
+    random.shuffle(nums)
+    lst10 = PyList(nums)
+    lst11 = PyList(range(40))
+    print(lst10)
+    lst10.merge_sort()
+    print(lst10)
+    if lst10 == lst11:
+        print("Test 17 passed")
+    else:
+        print("Test 17 failed")
+
+    lst12 = PyList([1, 3, 5, 7])
+    lst13 = PyList([2, 4, 6, 8])
+    lst14 = PyList([1,2,3,4,5,6,7,8])
+    lst12.merge(lst13)
+    if lst12 == lst14:
+        print("Test 18 passed")
+    else:
+        print("Test 18 failed")
+
+
 
 
 if __name__ == "__main__":
